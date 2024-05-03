@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { GridComponent } from 'src/app/components/grid/grid.component';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductListComponent } from './product-list';
+import { ProductsService } from './products.service';
 
 
 
 @NgModule({
   declarations: [
-    ProductListComponent 
+    ProductListComponent
   ],
   imports: [
     CommonModule,
     GridComponent,
     ProductsRoutingModule
-  ]
+  ],
 })
+
 export class ProductsModule { }

@@ -2,14 +2,26 @@
   <thead>
     <tr>
       <ng-container *ngFor="let column of schema">
-        <th *ngIf="!column.hide">{{ column.headerName }}</th>
+        <th class="center-content" *ngIf="!column.hide">{{ column.headerName }}</th>
       </ng-container>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of visibleData">
       <ng-container *ngFor="let column of schema">
-        <td *ngIf="!column.hide">{{ item[column.field] }}</td>
+        <ng-container *ngIf="!column.hide">
+          <td class="center-content">
+            <ng-container *ngIf="column.isImage">
+              <img [src]="item[column.field]" alt="Image" class="logo-image">
+            </ng-container>
+            <ng-container *ngIf="column.formatDate && item[column.field]">
+              {{ item[column.field] | date:'dd/MM/yyyy' }}
+            </ng-container>
+            <ng-container *ngIf="!column.formatDate && !column.isImage">
+              {{ item[column.field] }}
+            </ng-container>
+          </td>
+        </ng-container>
       </ng-container>
     </tr>
   </tbody>
