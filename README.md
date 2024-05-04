@@ -1,27 +1,53 @@
-# PruebaTecnicaAngular
+# Prueba Técnica Angular - Devsu
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.11.
+Este proyecto es una aplicación Angular desarrollada como parte de una prueba técnica para la empresa Devsu.
 
-## Development server
+## Instalación
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. Clona este repositorio en tu máquina local utilizando el siguiente comando:
 
-## Code scaffolding
+    ```bash
+    git clone https://github.com/lorenzopablo91/PabloLorenzo
+    ```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. Navega hasta el directorio del proyecto:
 
-## Build
+    ```bash
+    cd prueba-tecnica-angular
+    ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. Instala las dependencias utilizando npm:
 
-## Running unit tests
+    ```bash
+    npm install
+    ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Ejecución
 
-## Running end-to-end tests
+Puedes ejecutar la aplicación en tu entorno local utilizando el servidor de desarrollo de Angular. Para hacerlo, utiliza el siguiente comando:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    ```bash
+    npm start
+    ```
+## Construcción
+Si deseas construir la aplicación para producción, puedes hacerlo utilizando el siguiente comando:
 
-## Further help
+ ```bash
+npm run build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Esto generará los archivos de distribución en el directorio dist/.
+
+## Pruebas
+
+El proyecto está configurado con Jest para realizar pruebas unitarias. Puedes ejecutar las pruebas utilizando el siguiente comando:
+
+ ```bash
+npm test
+ ```
+
+Para ejecutar las pruebas en modo observador, puedes utilizar:
+
+ ```bash
+npm run test:watch
+``` 
