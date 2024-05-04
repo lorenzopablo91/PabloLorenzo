@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductListSchema } from './product-list.schema';
 import { ProductsService } from '../products.service';
+import { Product } from 'src/app/models/product.interface';
 
 @Component({
   selector: 'app-product-list',
@@ -8,7 +9,7 @@ import { ProductsService } from '../products.service';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent {
-  productListData: any[] = [];
+  productListData: Array<Product> = [];
 
   productListSchema: ProductListSchema = new ProductListSchema();
 

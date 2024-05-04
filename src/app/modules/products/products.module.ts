@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GridComponent } from 'src/app/components/grid/grid.component';
 import { ProductsRoutingModule } from './products-routing.module';
+import { SearchPlusComponent, GridComponent } from 'src/app/components';
 import { ProductListComponent } from './product-list';
-import { ProductsService } from './products.service';
-
-
+import { ProductFormComponent } from './product-form';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    ProductListComponent
+    ProductListComponent,
+    ProductFormComponent
   ],
   imports: [
     CommonModule,
     GridComponent,
-    ProductsRoutingModule
+    ProductsRoutingModule,
+    SearchPlusComponent,
+    ReactiveFormsModule
   ],
 })
 

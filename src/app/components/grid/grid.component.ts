@@ -1,13 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatePipe, NgFor, NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms'
+import { Observable, Subject, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+
+import { SearchPlusComponent } from "../search-plus/search-plus.component";
 
 @Component({
-  standalone: true,
-  imports: [NgFor, NgIf, FormsModule, DatePipe, NgClass],
-  selector: 'app-grid',
-  templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+    standalone: true,
+    selector: 'app-grid',
+    templateUrl: './grid.component.html',
+    styleUrls: ['./grid.component.scss'],
+    imports: [NgFor, NgIf, FormsModule, DatePipe, NgClass, SearchPlusComponent]
 })
 export class GridComponent {
   @Input() schema: any[] = [];
@@ -18,8 +22,13 @@ export class GridComponent {
   currentPage: number = 1;
   totalPages: number = 1;
   visibleData: any[] = [];
+  searchTextSubject: Subject<string> = new Subject<string>();
 
   @Output() pageChange = new EventEmitter<number>();
+
+  ngOnInit() {
+    this.changesDetect();
+  }
 
   ngOnChanges() {
     this.totalPages = Math.ceil(this.data.length / this.itemsPerPage);
@@ -47,6 +56,39 @@ export class GridComponent {
     const endIndex = startIndex + this.itemsPerPage;
     this.visibleData = this.data.slice(startIndex, endIndex);
   }
+
+  changesDetect(){
+    this.searchTextSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(searchText => this.filterData(searchText))
+    ).subscribe(filteredData => {
+      this.visibleData = filteredData;
+    });
+  }
+
+  onSearchTextChange(searchText: string) {
+    this.searchTextSubject.next(searchText);
+  }
+  
+  filterData(searchText: string): Observable<any[]> {
+    return of(this.data.filter(item => {
+      // Buscar en todas las propiedades del objeto item si contienen el searchText
+      return Object.values(item).some(value => 
+        typeof value === 'string' && value.toLowerCase().includes(searchText.toLowerCase())
+      );
+    })).pipe(
+      map(filteredData => this.paginateData(filteredData))
+    );
+  }
+  
+  paginateData(data: any[]): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.totalPages = Math.ceil(data.length / this.itemsPerPage);
+    return data.slice(startIndex, endIndex);
+  }
+  
 }
 
 

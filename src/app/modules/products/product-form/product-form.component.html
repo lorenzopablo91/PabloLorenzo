@@ -1,0 +1,81 @@
+<main>
+    <div class="form-container">
+        <section class="form-title">
+            Formulario de Registro
+        </section>
+        <hr>
+        <section class="form" [formGroup]="productForm">
+            <div class="form-row">
+                <div class="form-control">
+                    <label for="id">ID</label>
+                    <input formControlName="id" type="text"
+                        [ngClass]="{'is-invalid': id?.invalid && (id?.dirty || id?.touched)}">
+                    <div *ngIf="id?.errors && (id?.dirty || id?.touched)">
+                        <span class="error" *ngIf="id?.errors?.['required']">Este campo es requerido!</span>
+                        <span class="error" *ngIf="id?.errors?.['minlength']">No se permiten menos de 3 caracteres</span>
+                        <span class="error" *ngIf="id?.errors?.['maxlength']">No se permiten más de 10 caracteres</span>
+                    </div>
+                </div>
+                <div class="form-control">
+                    <label for="id">Nombre</label>
+                    <input formControlName="name" type="text"
+                        [ngClass]="{'is-invalid': name?.invalid && (name?.dirty || name?.touched)}">
+                    <div *ngIf="name?.errors && (name?.dirty || name?.touched)">
+                        <span class="error" *ngIf="name?.errors?.['required']">Este campo es requerido!</span>
+                        <span class="error" *ngIf="name?.errors?.['minlength']">No se permiten menos de 5 caracteres</span>
+                        <span class="error" *ngIf="name?.errors?.['maxlength']">No se permiten más de 100 caracteres</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-control">
+                    <label for="id">Descripción</label>
+                    <input formControlName="description" type="text"
+                        [ngClass]="{'is-invalid': description?.invalid && (description?.dirty || description?.touched)}">
+                    <div *ngIf="description?.errors && (description?.dirty || description?.touched)">
+                        <span class="error" *ngIf="description?.errors?.['required']">Este campo es requerido!</span>
+                        <span class="error" *ngIf="description?.errors?.['minlength']">No se permiten menos de 10 caracteres</span>
+                        <span class="error" *ngIf="description?.errors?.['maxlength']">No se permiten más de 200 caracteres</span>
+                    </div>
+                </div>
+                <div class="form-control">
+                    <label for="id">Logo</label>
+                    <input formControlName="logo" type="text"
+                        [ngClass]="{'is-invalid': logo?.invalid && (logo?.dirty || logo?.touched)}">
+                    <div *ngIf="logo?.errors && (logo?.dirty || logo?.touched)">
+                        <span class="error" *ngIf="logo?.errors?.['required']">Este campo es requerido!</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-control">
+                    <label for="id">Fecha Liberación</label>
+                    <input formControlName="date_release" type="date" (change)="updateRevisionDate()">
+                    <div *ngIf="date_release?.errors && (date_release?.dirty || date_release?.touched)">
+                        <span class="error" *ngIf="date_release?.errors?.['required']">Este campo es requerido!</span>
+                        <span class="error" *ngIf="date_release?.errors?.['invalidDateRelease']">La fecha de lanzamiento
+                            debe ser igual o mayor a la fecha actual.</span>
+                    </div>
+                </div>
+                <div class="form-control">
+                    <label for="id">Fecha Revisión</label>
+                    <input formControlName="date_revision">
+                    <div *ngIf="date_revision?.errors && (date_revision?.dirty || date_revision?.touched)">
+                        <span class="error" *ngIf="date_revision?.errors?.['required']">Este campo es requerido!</span>
+                        <span class="error" *ngIf="date_revision?.errors?.['invalidDateRevision']">La fecha de revisión
+                            debe
+                            ser un año mayor que la fecha de lanzamiento.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-buttons">
+                <button class="second-button" (click)="productForm.reset()">
+                    Reiniciar
+                </button>
+                <button class="main-button" (click)="createProduct()" [disabled]="!productForm.valid">
+                    Enviar
+                </button>
+            </div>
+        </section>
+    </div>
+</main>
