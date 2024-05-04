@@ -2,7 +2,7 @@
 
 Este proyecto es una aplicación Angular desarrollada como parte de una prueba técnica para la empresa Devsu.
 
-## Instalación
+## Install
 
 1. Clona este repositorio en tu máquina local utilizando el siguiente comando:
 
@@ -22,14 +22,15 @@ Este proyecto es una aplicación Angular desarrollada como parte de una prueba t
     npm install
     ```
 
-## Ejecución
+## Start
 
 Puedes ejecutar la aplicación en tu entorno local utilizando el servidor de desarrollo de Angular. Para hacerlo, utiliza el siguiente comando:
 
-    ```bash
-    npm start
-    ```
-## Construcción
+```bash
+npm start
+```
+
+## Build
 Si deseas construir la aplicación para producción, puedes hacerlo utilizando el siguiente comando:
 
  ```bash
@@ -38,7 +39,7 @@ npm run build
 
 Esto generará los archivos de distribución en el directorio dist/.
 
-## Pruebas
+## Tests
 
 El proyecto está configurado con Jest para realizar pruebas unitarias. Puedes ejecutar las pruebas utilizando el siguiente comando:
 
@@ -50,4 +51,11 @@ Para ejecutar las pruebas en modo observador, puedes utilizar:
 
  ```bash
 npm run test:watch
+``` 
+
+## Deploy
+
+Puedes acceder a la versión web de esta aplicación en la siguiente URL:
+
+https://pablo-lorenzo.vercel.app/product
 ``` 
