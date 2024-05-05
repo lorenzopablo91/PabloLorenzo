@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+
+import { Toast, Product } from 'src/app/models';
 import { ProductListSchema } from './product-list.schema';
 import { ProductsService } from '../products.service';
-import { Product } from 'src/app/models/product.interface';
 
 @Component({
   selector: 'app-product-list',
@@ -13,6 +14,8 @@ export class ProductListComponent {
 
   productListSchema: ProductListSchema = new ProductListSchema();
 
+  toasts: Toast[] = [];
+
   constructor(private productsService: ProductsService) {
 
   }
@@ -21,15 +24,19 @@ export class ProductListComponent {
     this.getProductList();
   }
 
+  showToast(type: string, message: string) {
+    this.toasts.push({ type, message });
+  }
+
   getProductList() {
     this.productsService.getProductList().subscribe(data => {
-        if (!data) {
-            // mostrar msj 'Se ha producido un error al obtener el listado de productos'
-            return;
-        }
+      if (!data) {
+        this.showToast('error', 'Se ha producido un error al obtener el listado de productos.')
+        return;
+      }
 
-        this.productListData = data;
+      this.productListData = data;
     });
-}
+  }
 
 }

@@ -1,2 +1,6 @@
+<ng-container *ngFor="let toast of toasts">
+  <app-toast [type]="toast.type" [message]="toast.message"></app-toast>
+</ng-container>
+
 <app-grid [schema]="productListSchema.columns" [data]="productListData" [itemsPerPage]="5"
-    [itemsPerPageOptions]="[5, 10, 20]"></app-grid>
+  [itemsPerPageOptions]="[5, 10, 20]"></app-grid>

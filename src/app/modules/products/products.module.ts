@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsRoutingModule } from './products-routing.module';
-import { SearchPlusComponent, GridComponent } from 'src/app/components';
+import { SearchPlusComponent, GridComponent, ToastComponent } from 'src/app/components';
 import { ProductListComponent } from './product-list';
 import { ProductFormComponent } from './product-form';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     GridComponent,
     ProductsRoutingModule,
     SearchPlusComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastComponent
   ],
 })
 

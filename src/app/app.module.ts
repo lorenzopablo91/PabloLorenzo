@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { NavbarComponent } from './components';
+import { NavbarComponent, ToastComponent } from './components';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthorIdInterceptorService } from './interceptors/author-id-interceptor.service';
@@ -23,7 +23,8 @@ import { AuthorIdInterceptorService } from './interceptors/author-id-interceptor
         HttpClientModule,
         BrowserModule,
         AppRoutingModule,
-        NavbarComponent
+        NavbarComponent,
+        ToastComponent
     ]
 })
 export class AppModule { }

@@ -1,3 +1,7 @@
+<ng-container *ngFor="let toast of toasts">
+    <app-toast [type]="toast.type" [message]="toast.message"></app-toast>
+</ng-container>
+
 <main>
     <div class="form-container">
         <section class="form-title">
@@ -12,7 +16,8 @@
                         [ngClass]="{'is-invalid': id?.invalid && (id?.dirty || id?.touched)}">
                     <div *ngIf="id?.errors && (id?.dirty || id?.touched)">
                         <span class="error" *ngIf="id?.errors?.['required']">Este campo es requerido!</span>
-                        <span class="error" *ngIf="id?.errors?.['minlength']">No se permiten menos de 3 caracteres</span>
+                        <span class="error" *ngIf="id?.errors?.['minlength']">No se permiten menos de 3
+                            caracteres</span>
                         <span class="error" *ngIf="id?.errors?.['maxlength']">No se permiten más de 10 caracteres</span>
                     </div>
                 </div>
@@ -22,8 +27,10 @@
                         [ngClass]="{'is-invalid': name?.invalid && (name?.dirty || name?.touched)}">
                     <div *ngIf="name?.errors && (name?.dirty || name?.touched)">
                         <span class="error" *ngIf="name?.errors?.['required']">Este campo es requerido!</span>
-                        <span class="error" *ngIf="name?.errors?.['minlength']">No se permiten menos de 5 caracteres</span>
-                        <span class="error" *ngIf="name?.errors?.['maxlength']">No se permiten más de 100 caracteres</span>
+                        <span class="error" *ngIf="name?.errors?.['minlength']">No se permiten menos de 5
+                            caracteres</span>
+                        <span class="error" *ngIf="name?.errors?.['maxlength']">No se permiten más de 100
+                            caracteres</span>
                     </div>
                 </div>
             </div>
@@ -34,8 +41,10 @@
                         [ngClass]="{'is-invalid': description?.invalid && (description?.dirty || description?.touched)}">
                     <div *ngIf="description?.errors && (description?.dirty || description?.touched)">
                         <span class="error" *ngIf="description?.errors?.['required']">Este campo es requerido!</span>
-                        <span class="error" *ngIf="description?.errors?.['minlength']">No se permiten menos de 10 caracteres</span>
-                        <span class="error" *ngIf="description?.errors?.['maxlength']">No se permiten más de 200 caracteres</span>
+                        <span class="error" *ngIf="description?.errors?.['minlength']">No se permiten menos de 10
+                            caracteres</span>
+                        <span class="error" *ngIf="description?.errors?.['maxlength']">No se permiten más de 200
+                            caracteres</span>
                     </div>
                 </div>
                 <div class="form-control">
@@ -53,8 +62,7 @@
                     <input formControlName="date_release" type="date" (change)="updateRevisionDate()">
                     <div *ngIf="date_release?.errors && (date_release?.dirty || date_release?.touched)">
                         <span class="error" *ngIf="date_release?.errors?.['required']">Este campo es requerido!</span>
-                        <span class="error" *ngIf="date_release?.errors?.['invalidDateRelease']">La fecha de lanzamiento
-                            debe ser igual o mayor a la fecha actual.</span>
+                        <span class="error" *ngIf="date_release?.errors?.['invalidDateRelease']">Ingrese la fecha de hoy o superior</span>
                     </div>
                 </div>
                 <div class="form-control">
@@ -62,9 +70,6 @@
                     <input formControlName="date_revision">
                     <div *ngIf="date_revision?.errors && (date_revision?.dirty || date_revision?.touched)">
                         <span class="error" *ngIf="date_revision?.errors?.['required']">Este campo es requerido!</span>
-                        <span class="error" *ngIf="date_revision?.errors?.['invalidDateRevision']">La fecha de revisión
-                            debe
-                            ser un año mayor que la fecha de lanzamiento.</span>
                     </div>
                 </div>
             </div>
@@ -72,7 +77,7 @@
                 <button class="second-button" (click)="productForm.reset()">
                     Reiniciar
                 </button>
-                <button class="main-button" (click)="createProduct()" [disabled]="!productForm.valid">
+                <button class="main-button" (click)="verifyIdAndCreateProduct()" [disabled]="!productForm.valid">
                     Enviar
                 </button>
             </div>

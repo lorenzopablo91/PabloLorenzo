@@ -1,0 +1,60 @@
+.toast {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 80px;
+  width: 300px;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+  animation: slideIn 0.5s ease-out, slideOut 0.5s ease-out forwards;
+  z-index: 9999;
+  overflow: visible;
+  text-align: center;
+  white-space: normal;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.toast span {
+  display: inline-block;
+  width: 100%;
+  word-wrap: break-word;
+  background-color: transparent;
+  color: #fff;
+}
+
+/* Estilos para diferentes tipos de toasts */
+.toast.error {
+  background-color: #ff5555;
+}
+
+.toast.warning {
+  background-color: #ffc107;
+}
+
+.toast.success {
+  background-color: #28a745;
+}
+
+// Animaciones
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}

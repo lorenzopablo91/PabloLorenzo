@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { ProductsService } from '../products.service';
-import { forkJoin } from 'rxjs';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { EMPTY } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
+import { Toast } from 'src/app/models';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-product-form',
@@ -11,9 +13,9 @@ import { forkJoin } from 'rxjs';
 })
 export class ProductFormComponent {
 
-  public productForm: FormGroup = new FormGroup({
+  public productForm: FormGroup = new FormGroup({});
 
-  });
+  toasts: Toast[] = [];
 
   constructor(private fb: FormBuilder, private productsService: ProductsService) {
     this.inicializarFormulario();
@@ -26,7 +28,6 @@ export class ProductFormComponent {
   get date_release() { return this.productForm.get('date_release'); }
   get date_revision() { return this.productForm.get('date_revision'); }
 
-
   inicializarFormulario() {
     this.productForm = this.fb.group({
       id: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
@@ -34,42 +35,21 @@ export class ProductFormComponent {
       description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
       logo: ['', Validators.required],
       date_release: ['', [Validators.required, this.dateReleaseValidator()]],
-      date_revision: [{ value: '', disabled: true }, [Validators.required, this.dateRevisionValidator()]]
+      date_revision: [{ value: '', disabled: true }, Validators.required]
     });
   }
 
   dateReleaseValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const selectedDate = new Date(control.value);
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      
       const currentDate = new Date();
+
       if (selectedDate < currentDate) {
         return { 'invalidDateRelease': { value: control.value } };
       }
       return null;
-    };
-  }
-
-  dateRevisionValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const releaseDate = new Date(control.parent?.get('date_release')?.value);
-      const revisionDate = new Date(control.value);
-
-      // Creamos una nueva fecha para la fecha de lanzamiento más un año
-      const oneYearLater = new Date(releaseDate);
-      oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
-
-      // Comparamos los años, meses y días de las fechas
-      if (
-        revisionDate.getFullYear() === oneYearLater.getFullYear() &&
-        revisionDate.getMonth() === oneYearLater.getMonth() &&
-        revisionDate.getDate() === oneYearLater.getDate()
-      ) {
-        // Si la fecha de revisión es exactamente un año después de la fecha de lanzamiento, retornamos null (no hay error)
-        return null;
-      } else {
-        // Si la fecha de revisión no cumple con la condición, retornamos el error
-        return { 'invalidDateRevision': { value: control.value } };
-      }
     };
   }
 
@@ -82,22 +62,31 @@ export class ProductFormComponent {
       this.productForm.get('date_revision')?.setValue(oneYearLater.toISOString().split('T')[0]);
     }
   }
-  
-    createProduct() {
-      const idToCheck = this.productForm.controls['id'].value;
-  
-      forkJoin([
-        this.productsService.verifyId(idToCheck),
-        this.productsService.createProduct(this.productForm.getRawValue())
-      ]).subscribe(([idAvailable, productCreated]) => {
-        if (!idAvailable) {
-          console.log('El ID ya existe, no se puede crear el producto.');
+
+  verifyIdAndCreateProduct() {
+    const idToCheck = this.productForm.controls['id'].value;
+
+    this.productsService.verifyId(idToCheck).pipe(
+      switchMap((isIdAvailable: boolean) => {
+        if (isIdAvailable) {
+          this.showToast('warning', 'El id ingresado no está disponible. Por favor, ingrese uno diferente.');
+          return EMPTY;
         } else {
-          console.log('Producto creado exitosamente:', productCreated);
+          return this.productsService.createProduct(this.productForm.getRawValue());
         }
-      }, error => {
-        console.error('Error al crear el producto:', error);
-      });
-    }
+      }),
+      tap(data => {
+        if (!data) {
+          this.showToast('error', 'Se ha producido un error al crear el producto.');
+        } else {
+          this.showToast('success', 'El producto ha sido creado con éxito.');
+        }
+      })
+    ).subscribe();
+  }
+
+  showToast(type: string, message: string) {
+    this.toasts.push({ type, message });
+  }
 
 }
