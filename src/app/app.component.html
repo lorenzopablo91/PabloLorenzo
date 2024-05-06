@@ -1,2 +1,6 @@
 <app-navbar></app-navbar>
+<ng-container *ngFor="let toast of toasts">
+    <app-toast [type]="toast.type" [message]="toast.message"></app-toast>
+</ng-container>
 <router-outlet></router-outlet>
+<app-loader></app-loader>

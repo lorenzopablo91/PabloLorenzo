@@ -17,7 +17,7 @@
             <ng-container *ngIf="!column.hide">
               <td [ngClass]="(i === 1) ? 'center-content first' : 'center-content'">
                 <ng-container *ngIf="column.isImage">
-                  <img [src]="item[column.field]" alt="Image" class="logo-image">
+                  <img [src]="item[column.field]" alt="Image" class="logo-image" (error)="item[column.field] = setDefaultImage(item[column.field])">
                 </ng-container>
                 <ng-container *ngIf="column.formatDate && item[column.field]">
                   {{ item[column.field] | date:'dd/MM/yyyy' }}

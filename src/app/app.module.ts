@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { NavbarComponent, ToastComponent } from './components';
+import { LoaderComponent, NavbarComponent, ToastComponent } from './components';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthorIdInterceptorService } from './interceptors/author-id-interceptor.service';
+import { AuthorIdInterceptorService, LoaderInterceptor } from './interceptors';
 
 @NgModule({
     declarations: [
@@ -16,7 +16,12 @@ import { AuthorIdInterceptorService } from './interceptors/author-id-interceptor
             provide: HTTP_INTERCEPTORS,
             useClass: AuthorIdInterceptorService,
             multi: true
-        }
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoaderInterceptor,
+            multi: true
+          }
     ],
     bootstrap: [AppComponent],
     imports: [
@@ -24,7 +29,8 @@ import { AuthorIdInterceptorService } from './interceptors/author-id-interceptor
         BrowserModule,
         AppRoutingModule,
         NavbarComponent,
-        ToastComponent
+        ToastComponent,
+        LoaderComponent
     ]
 })
 export class AppModule { }

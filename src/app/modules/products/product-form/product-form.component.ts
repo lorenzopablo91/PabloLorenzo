@@ -3,8 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from
 import { EMPTY } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { Toast } from 'src/app/models';
 import { ProductsService } from '../products.service';
+import { LoaderService, ToastService } from 'src/app/services';
 
 @Component({
   selector: 'app-product-form',
@@ -15,9 +15,7 @@ export class ProductFormComponent {
 
   public productForm: FormGroup = new FormGroup({});
 
-  toasts: Toast[] = [];
-
-  constructor(private fb: FormBuilder, private productsService: ProductsService) {
+  constructor(private fb: FormBuilder, private productsService: ProductsService, private toastService: ToastService, private loaderService: LoaderService) {
     this.inicializarFormulario();
   }
 
@@ -43,7 +41,7 @@ export class ProductFormComponent {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const selectedDate = new Date(control.value);
       selectedDate.setDate(selectedDate.getDate() + 1);
-      
+
       const currentDate = new Date();
 
       if (selectedDate < currentDate) {
@@ -64,29 +62,29 @@ export class ProductFormComponent {
   }
 
   verifyIdAndCreateProduct() {
+    this.loaderService.show();
     const idToCheck = this.productForm.controls['id'].value;
 
     this.productsService.verifyId(idToCheck).pipe(
       switchMap((isIdAvailable: boolean) => {
         if (isIdAvailable) {
-          this.showToast('warning', 'El id ingresado no está disponible. Por favor, ingrese uno diferente.');
+          this.loaderService.hide();
+          this.toastService.addToast({ type: 'warning', message: 'El id ingresado no está disponible. Por favor, ingrese uno diferente.' });
           return EMPTY;
         } else {
           return this.productsService.createProduct(this.productForm.getRawValue());
         }
       }),
       tap(data => {
+        this.loaderService.hide();
         if (!data) {
-          this.showToast('error', 'Se ha producido un error al crear el producto.');
+          this.toastService.addToast({ type: 'error', message: 'Se ha producido un error al crear el producto.' });
         } else {
-          this.showToast('success', 'El producto ha sido creado con éxito.');
+          this.toastService.addToast({ type: 'success', message: 'El producto ha sido creado con éxito.' });
+          this.productForm.reset();
         }
       })
     ).subscribe();
-  }
-
-  showToast(type: string, message: string) {
-    this.toasts.push({ type, message });
   }
 
 }
